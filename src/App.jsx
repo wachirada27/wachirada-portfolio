@@ -10,12 +10,9 @@ import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-white">
-      {/* Navigation */}
+    <div className="min-h-screen bg-[#f8f7ff] text-slate-800 selection:bg-violet-200 selection:text-violet-900">
       <Navbar />
-
-      {/* Main Content Sections */}
-      <main className="flex-grow">
+      <main>
         <Hero />
         <About />
         <TechStack />
@@ -23,8 +20,6 @@ export default function App() {
         <Experience />
         <Contact />
       </main>
-
-      {/* Footer */}
       <Footer />
     </div>
   );
