@@ -10,7 +10,8 @@ import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#f8f7ff] text-slate-800 selection:bg-violet-200 selection:text-violet-900">
+    <div className="min-h-screen text-slate-800 selection:bg-pink-200 selection:text-pink-900"
+      style={{ background: '#fff5f7', fontFamily: "'Sarabun', 'Noto Sans Thai', 'Plus Jakarta Sans', sans-serif" }}>
       <Navbar />
       <main>
         <Hero />
