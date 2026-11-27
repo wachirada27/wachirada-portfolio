@@ -137,13 +137,6 @@ export default function Hero() {
               >
                 <i className="fa-brands fa-github" />
               </a>
-              <a
-                href={`tel:${personalInfo.phone.replace(/-/g, '')}`}
-                className="social-link"
-                title="Phone"
-              >
-                <i className="fa-solid fa-phone" />
-              </a>
             </div>
           </div>
 

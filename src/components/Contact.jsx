@@ -1,5 +1,5 @@
 import React from 'react';
-import { educationInfo, personalInfo } from '../data/portfolioData';
+import { personalInfo } from '../data/portfolioData';
 
 export default function Contact() {
   return (
@@ -12,47 +12,17 @@ export default function Contact() {
         </div>
 
         <div className="contact-wrapper">
-          <div className="contact-info" data-aos="fade-right">
-            <h3>มาคุยกันเลย! 🌸</h3>
-            <p>
-              หากต้องการติดต่อหรือพูดคุยเกี่ยวกับโอกาสการทำงาน โปรเจกต์
-              หรือการเรียนรู้ร่วมกัน ยินดีรับทุกข้อความเสมอค่ะ
-            </p>
-            <div className="contact-items">
-              <div className="contact-item">
-                <div className="contact-item-icon">📧</div>
-                <div className="contact-item-text">
-                  <span>Email</span>
-                  <a href={`mailto:${personalInfo.email}`}>
-                    {personalInfo.email}
-                  </a>
-                </div>
-              </div>
-              <div className="contact-item">
-                <div className="contact-item-icon">📱</div>
-                <div className="contact-item-text">
-                  <span>Phone</span>
-                  <a href={`tel:${personalInfo.phone.replace(/-/g, '')}`}>
-                    {personalInfo.phone}
-                  </a>
-                </div>
-              </div>
-              <div className="contact-item">
-                <div className="contact-item-icon">🏫</div>
-                <div className="contact-item-text">
-                  <span>University</span>
-                  <strong>{educationInfo.universityEn}</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div className="contact-links" data-aos="fade-left">
             <a
               href={`mailto:${personalInfo.email}`}
               className="contact-link-card"
             >
-              <div className="contact-link-icon">📧</div>
+              <div className="contact-link-icon">
+                <i
+                  className="fa-solid fa-envelope"
+                  style={{ color: 'var(--mauve)' }}
+                />
+              </div>
               <div className="contact-link-text">
                 <strong>Email</strong>
                 <span>{personalInfo.email}</span>
@@ -110,7 +80,12 @@ export default function Contact() {
               rel="noreferrer"
               className="contact-link-card"
             >
-              <div className="contact-link-icon">📄</div>
+              <div className="contact-link-icon">
+                <i
+                  className="fa-solid fa-file-arrow-down"
+                  style={{ color: 'var(--mauve)' }}
+                />
+              </div>
               <div className="contact-link-text">
                 <strong>Download CV</strong>
                 <span>{personalInfo.resumeFilename}</span>
