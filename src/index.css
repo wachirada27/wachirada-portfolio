@@ -858,76 +858,386 @@ section:first-of-type {
   gap: 24px;
 }
 
-.techstack-slider-wrap {
-  position: relative;
-}
-
-.techstack-grid.techstack-slider {
+/* ===== GLASSY CAROUSEL V2 ===== */
+.glassy-carousel-wrap {
   display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  padding: 8px 4px 16px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--rose) transparent;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
 }
 
-.techstack-grid.techstack-slider.is-hover-scrolling {
-  scroll-snap-type: none;
-  scroll-behavior: auto;
+.glassy-carousel-stage {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  perspective: 1200px;
+  overflow-x: clip;
+  overflow-y: visible;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(244, 114, 182, 0.14) 0%,
+    rgba(253, 232, 240, 0.04) 55%,
+    transparent 75%
+  );
 }
 
-.techstack-grid.techstack-slider::-webkit-scrollbar {
-  height: 8px;
-}
-
-.techstack-grid.techstack-slider::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.techstack-grid.techstack-slider::-webkit-scrollbar-thumb {
-  background: var(--rose);
-  border-radius: 999px;
-}
-
-.techstack-grid.techstack-slider .techstack-card {
-  flex: 0 0 calc((100% - 48px) / 3);
-  min-width: 280px;
-  scroll-snap-align: start;
-}
-
-.techstack-slider-btn {
+.glassy-carousel-stage .glassy-card {
   position: absolute;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%);
-  z-index: 5;
-  width: 42px;
-  height: 42px;
+  width: 280px;
+  min-width: 280px;
+  height: 310px;
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 44px rgba(212, 120, 154, 0.18);
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease,
+    filter 0.45s ease,
+    box-shadow 0.45s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.glassy-carousel-stage .glassy-card:hover {
+  box-shadow: 0 24px 52px rgba(212, 120, 154, 0.28);
+}
+
+.glassy-carousel-stage .glassy-card.is-active {
+  cursor: default;
+  border-color: rgba(244, 114, 182, 0.55);
+  box-shadow:
+    0 24px 52px rgba(212, 120, 154, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.glassy-carousel-stage .glassy-card.is-active:hover {
+  transform: translate(-50%, -50%) translateY(-4px) scale(1.02) !important;
+}
+
+.glassy-card-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.glassy-card-index {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-light);
+  flex-shrink: 0;
+}
+
+.glassy-control-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 12px 32px rgba(212, 120, 154, 0.2);
+  max-width: 100%;
+}
+
+.glassy-ctrl-btn {
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  border: 1px solid var(--rose);
-  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(244, 114, 182, 0.28);
+  background: rgba(255, 255, 255, 0.85);
   color: var(--mauve);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: var(--shadow-md);
+  flex-shrink: 0;
   transition: var(--transition);
 }
 
-.techstack-slider-btn:hover {
+.glassy-ctrl-btn:hover,
+.glassy-ctrl-btn.is-playing {
   background: linear-gradient(135deg, var(--pink-400), var(--mauve));
   border-color: transparent;
   color: var(--white);
+  box-shadow: 0 4px 12px rgba(212, 120, 154, 0.35);
 }
 
-.techstack-slider-btn.prev {
-  left: -18px;
+.glassy-ctrl-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 10px 2px 4px;
+  min-width: 0;
 }
 
-.techstack-slider-btn.next {
-  right: -18px;
+.glassy-ctrl-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  flex-shrink: 0;
+}
+
+.glassy-ctrl-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+
+.glassy-ctrl-text strong {
+  font-size: 0.82rem;
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.glassy-ctrl-text span {
+  font-size: 0.7rem;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+/* ===== CARD DECK (CATEGORY TABS) ===== */
+.card-deck {
+  position: relative;
+  width: 100%;
+  height: 390px;
+  margin-top: 12px;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.card-deck .deck-card {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 255px;
+  min-width: 255px;
+  height: 305px;
+  transform-origin: center bottom;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 14px 34px rgba(212, 120, 154, 0.18);
+  transition:
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+  user-select: none;
+}
+
+.card-deck .deck-card.is-hovered {
+  border-color: var(--rose);
+  box-shadow: 0 26px 56px rgba(212, 120, 154, 0.34);
+}
+
+/* ===== DRAG DECK CAROUSEL (BACKEND) ===== */
+.drag-deck-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.drag-deck {
+  position: relative;
+  width: 100%;
+  height: 360px;
+}
+
+.drag-deck .drag-deck-card {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 280px;
+  min-width: 280px;
+  height: 310px;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 40px rgba(212, 120, 154, 0.2);
+  user-select: none;
+  touch-action: none;
+  pointer-events: none;
+}
+
+.drag-deck .drag-deck-card.is-top {
+  pointer-events: auto;
+  cursor: grab;
+  border-color: rgba(244, 114, 182, 0.5);
+  box-shadow: 0 24px 52px rgba(212, 120, 154, 0.28);
+}
+
+.drag-deck .drag-deck-card.is-top.is-dragging {
+  cursor: grabbing;
+  box-shadow: 0 30px 60px rgba(212, 120, 154, 0.36);
+}
+
+.drag-deck .drag-deck-card:hover {
+  transform: none;
+}
+
+.drag-deck-hint {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* ===== 3D FLIP CARDS (DATABASE) ===== */
+.flip-cards-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 6px;
+}
+
+.flip-cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+  width: 100%;
+}
+
+.flip-card {
+  width: 300px;
+  height: 325px;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.flip-card-inner .flip-card-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 40px rgba(212, 120, 154, 0.18);
+  justify-content: space-between;
+}
+
+.flip-card-inner .flip-card-front:hover {
+  transform: none;
+  box-shadow: 0 22px 48px rgba(212, 120, 154, 0.26);
+}
+
+.flip-card-inner .flip-card-back,
+.flip-card-inner .flip-card-back:hover {
+  transform: rotateY(180deg);
+  border-color: rgba(244, 114, 182, 0.45);
+  box-shadow: 0 22px 48px rgba(212, 120, 154, 0.26);
+}
+
+.flip-front-center {
+  margin: auto 0;
+}
+
+.flip-hint-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--rose);
+  color: var(--mauve);
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.flip-back-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  color: var(--white);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+/* ===== EXPANDING ACCORDION (TOOLS & DEVOPS) ===== */
+.accordion-cards {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  height: 315px;
+  margin-top: 8px;
+}
+
+.accordion-cards .accordion-card {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 22px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 14px 32px rgba(212, 120, 154, 0.14);
+  transition:
+    flex 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+  justify-content: space-between;
+}
+
+.accordion-cards .accordion-card:hover {
+  transform: none;
+}
+
+.accordion-cards .accordion-card.is-expanded {
+  flex: 3.4;
+  border-color: rgba(244, 114, 182, 0.5);
+  box-shadow: 0 22px 48px rgba(212, 120, 154, 0.24);
+}
+
+.accordion-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.accordion-card:not(.is-expanded) .techstack-card-title {
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.accordion-card-details {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transform: translateY(8px);
+  transition:
+    opacity 0.35s ease,
+    max-height 0.45s ease,
+    transform 0.35s ease;
+}
+
+.accordion-card.is-expanded .accordion-card-details {
+  opacity: 1;
+  max-height: 200px;
+  transform: translateY(0);
+  transition-delay: 0.12s;
 }
 
 .techstack-card {
@@ -1352,15 +1662,6 @@ footer p span {
   .techstack-grid {
     grid-template-columns: 1fr 1fr;
   }
-  .techstack-grid.techstack-slider .techstack-card {
-    flex: 0 0 calc((100% - 24px) / 2);
-  }
-  .techstack-slider-btn.prev {
-    left: -10px;
-  }
-  .techstack-slider-btn.next {
-    right: -10px;
-  }
 }
 
 @media (max-width: 600px) {
@@ -1394,12 +1695,44 @@ footer p span {
   .techstack-grid {
     grid-template-columns: 1fr;
   }
-  .techstack-grid.techstack-slider .techstack-card {
-    flex: 0 0 85%;
-    min-width: 0;
+  .glassy-carousel-stage {
+    height: 340px;
   }
-  .techstack-slider-btn {
-    display: none;
+  .glassy-carousel-stage .glassy-card {
+    width: 250px;
+    min-width: 250px;
+    height: 295px;
+    padding: 20px;
+  }
+  .card-deck {
+    height: 350px;
+  }
+  .card-deck .deck-card {
+    width: 220px;
+    min-width: 220px;
+    height: 275px;
+    padding: 18px;
+  }
+  .drag-deck {
+    height: 335px;
+  }
+  .drag-deck .drag-deck-card {
+    width: 250px;
+    min-width: 250px;
+    height: 295px;
+    padding: 20px;
+  }
+  .accordion-cards {
+    flex-direction: column;
+    height: auto;
+  }
+  .accordion-cards .accordion-card {
+    flex: none;
+    height: auto;
+    gap: 12px;
+  }
+  .accordion-cards .accordion-card.is-expanded {
+    flex: none;
   }
   .edu-card {
     flex-direction: column;
